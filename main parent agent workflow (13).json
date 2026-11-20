@@ -1,0 +1,153 @@
+{
+  "name": "main parent agent workflow (13)",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.5,
+      "position": [
+        -256,
+        0
+      ],
+      "id": "38979188-679d-4e62-8915-741a7bf26143",
+      "name": "When chat message received",
+      "webhookId": "bbd495fd-dbc0-4d28-a01c-62cfba24dead"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "Use weather tool to find the current weather of any city .Always send the city name to the weather tool ."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        -64,
+        0
+      ],
+      "id": "6b178bcb-07c3-4895-81d5-4beca44715a9",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-flash",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        -64,
+        192
+      ],
+      "id": "3be8806b-9f85-453c-b2de-bdd7db9049c6",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": null,
+          "name": "",
+          "__aiGatewayManaged": true
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.4,
+      "position": [
+        32,
+        176
+      ],
+      "id": "900a4f78-4b5d-4da1-9f4b-3665f9c2a77e",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "description": "Use this tool to find the current weather of any city.",
+        "workflowId": {
+          "__rl": true,
+          "value": "JtsquTDhs95Lesr1",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/JtsquTDhs95Lesr1",
+          "cachedResultName": "child workflow class 13"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        144,
+        256
+      ],
+      "id": "aa1c9188-1838-47e5-aa30-719fbb8366ef",
+      "name": "weather"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "weather": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "1bf7c76b-81a1-411a-9a3d-b0b874fee4c3",
+  "meta": {
+    "instanceId": "831fd782fe57fe1311ea75972176bba9ab4ad1f5241f536d7f9a25f3034b252c"
+  },
+  "nodeGroups": [],
+  "id": "bz1m04BBK2OxXTHB",
+  "tags": []
+}
